@@ -27,8 +27,13 @@ function deleteTask(i) {
     <div class="max-w-5xl m-auto p-3">
       <inputTask @add-task="(content) => pushTask(content)" />
       <div class="flex justify-start gap-1 flex-wrap">
-        <div v-for="(task, index) in tasks" :key="task.id" >
-          <ListItem @delete-item="deleteTask(index)" @markAsDone="() => {task.isDone = !task.isDone; updateLocalStorage()}" :isDone="task.isDone" >{{ task.content }}</ListItem>
+        <template v-if="tasks.length != 0">
+          <div  v-for="(task, index) in tasks" :key="task.id" >
+            <ListItem @delete-item="deleteTask(index)" @markAsDone="() => {task.isDone = !task.isDone; updateLocalStorage()}" :isDone="task.isDone" >{{ task.content }}</ListItem>
+          </div>
+        </template>
+        <div v-else>
+          <p class="text-white">Add your first Task !</p>
         </div>
       </div>
     </div>
