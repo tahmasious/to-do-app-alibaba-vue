@@ -11,7 +11,7 @@ function updateLocalStorage(){
 }
 
 function pushTask(content) {
-  tasks.value.push({id : ++id, content : content, isDone: ref(false)});
+  tasks.value.push({id : ++id, content : content, isDone: false});
   updateLocalStorage()
 }
 
@@ -20,6 +20,10 @@ function deleteTask(i) {
   updateLocalStorage();
 }
 
+function markcomplete(index){
+  tasks.value[index].isDone = !tasks.value[index].isDone; 
+  updateLocalStorage()
+}
 </script>
 
 <template>
@@ -29,7 +33,7 @@ function deleteTask(i) {
       <div class="flex justify-start gap-1 flex-wrap">
         <template v-if="tasks.length != 0">
           <div  v-for="(task, index) in tasks" :key="task.id" >
-            <ListItem @delete-item="deleteTask(index)" @markAsDone="() => {task.isDone = !task.isDone; updateLocalStorage()}" :isDone="task.isDone" >{{ task.content }}</ListItem>
+            <ListItem @delete-item="deleteTask(index)" @markAsDone="markcomplete(index)" :task="task" >{{ task.content }}</ListItem>
           </div>
         </template>
         <div v-else>
